@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyTurf - Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #00a859;
+            --primary-dark: #00874a;
+            --secondary: #ff6b35;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image:url('/TurfProject/TurfApp/templates/media/pngtree-artificial-turf-football-stadium-image_15730923.jpg');
+            position: relative;
+            overflow: hidden;
+            color: var(--dark);
+            transition: background-color 0.3s ease;
+            background-size: cover;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary) 0%, rgba(0, 168, 89, 0) 70%);
+            top: -100px;
+            left: -100px;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        body::after {
+            content: "";
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--secondary) 0%, rgba(255, 107, 53, 0) 70%);
+            bottom: -150px;
+            right: -150px;
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* Increased opacity for better readability */
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin: 20px; /* Added margin for better spacing */
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px; /* Reduced height */
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 20px rgba(0, 168, 89, 0.3);
+        }
+        
+        .logo-icon i {
+            font-size: 30px;
+            color: white;
+        }
+        
+        .logo h1 {
+            color: var(--dark);
+            margin: 10px 0 5px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .logo p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px; /* Reduced margin */
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 14px;
+        }
+        
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px; /* Reduced padding */
+            border: 1px solid #e9ecef; /* Reduced border thickness */
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: #f8f9fa;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+            background-color: white;
+            box-shadow: 0 0 0 2px rgba(0, 168, 89, 0.1); /* Reduced shadow */
+            outline: none;
+        }
+        
+        .form-group .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 38px; /* Adjusted position */
+            color: var(--gray);
+            font-size: 16px; /* Reduced size */
+        }
+        
+        .btn {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 12px; /* Reduced padding */
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 168, 89, 0.3); /* Reduced shadow */
+            margin-top: 10px; /* Added space above button */
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px); /* Reduced movement */
+            box-shadow: 0 6px 15px rgba(0, 168, 89, 0.4); /* Reduced shadow */
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Theme styles with reduced effects */
+        .player-theme .themeable-field {
+            border-left: 2px solid #00C853; /* Reduced thickness */
+            background-color: rgba(0, 200, 83, 0.03); /* Reduced opacity */
+        }
+        
+        .player-theme .input-icon {
+            color: #00C853;
+        }
+        
+        .player-theme .themeable-button {
+            background: linear-gradient(135deg, #00C853, #009624);
+            box-shadow: 0 3px 10px rgba(0, 200, 83, 0.2); /* Reduced shadow */
+        }
+        
+        .owner-theme .themeable-field {
+            border-left: 2px solid #1E88E5; /* Reduced thickness */
+            background-color: rgba(30, 136, 229, 0.03); /* Reduced opacity */
+        }
+        
+        .owner-theme .input-icon {
+            color: #1E88E5;
+        }
+        
+        .owner-theme .themeable-button {
+            background: linear-gradient(135deg, #1E88E5, #0D47A1);
+            box-shadow: 0 3px 10px rgba(30, 136, 229, 0.2); /* Reduced shadow */
+        }
+        
+        /* Rest of your existing CSS... */
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container animate__animated animate__fadeIn">
+        <div class="logo animate__animated animate__fadeIn animate__delay-1s">
+            <div class="logo-icon">
+                <i class="fas fa-futbol"></i>
+            </div>
+            <h1>OnlyTurf</h1>
+            <p>Book your perfect game in seconds</p>
+        </div>
+
+        <form class="animate__animated animate__fadeIn animate__delay-2s" method="post" id="signup-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="user">You are a </label>
+                <select id="user" name="user_type" style="width: 100%;" required onchange="updateTheme()">
+                    <option value="" disabled selected>Select User Type</option>
+                    <option value="player">Player</option>
+                    <option value="owner">Owner</option>
+                </select>
+            </div>
+
+            <div class="form-group themeable-field">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+                <i class="fas fa-user input-icon"></i>
+            </div>
+
+            <div class="form-group themeable-field">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <i class="fas fa-envelope input-icon"></i>
+            </div>
+            
+            <div class="form-group themeable-field">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                <i class="fas fa-phone input-icon"></i>
+            </div>
+            
+            <div class="form-group themeable-field">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+                <i class="fas fa-lock input-icon"></i>
+            </div>
+            
+            <div class="form-group themeable-field">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                <i class="fas fa-lock input-icon"></i>
+            </div>
+            
+            <button type="submit" class="btn themeable-button">
+                <span>Create Account</span>
+            </button>
+        </form>
+        
+        <div class="divider animate__animated animate__fadeIn animate__delay-3s">
+            <span>or continue with</span>
+        </div>
+
+        <div class="social-login animate__animated animate__fadeIn animate__delay-4s">
+            <div class="social-btn google">
+                <i class="fab fa-google"></i>
+            </div>
+            <div class="social-btn facebook">
+                <i class="fab fa-facebook-f"></i>
+            </div>
+            <div class="social-btn apple">
+                <i class="fab fa-apple"></i>
+            </div>
+        </div>
+
+        <div class="login-link animate__animated animate__fadeIn animate__delay-5s">
+            Already have an account? <a href="Login.html">Log In</a>
+        </div>
+
+        <div class="terms animate__animated animate__fadeIn animate__delay-5s">
+            By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+        </div>
+    </div>
+
+    <!-- <script>
+        function updateTheme() {
+            const userType = document.getElementById('user').value;
+            const form = document.querySelector('form');
+            
+            // Remove existing theme classes
+            form.classList.remove('player-theme', 'owner-theme');
+            
+            // Add new theme based on selection
+            if (userType === 'player') {
+                form.classList.add('player-theme');
+            } else if (userType === 'owner') {
+                form.classList.add('owner-theme');
+            }
+        }
+        
+        // Initialize theme on page load if a value is already selected
+        document.addEventListener('DOMContentLoaded', function() {
+            const userType = document.getElementById('user').value;
+            if (userType) {
+                updateTheme();
+            }
+        });
+        
+        // Form submission
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Simple validation
+            if (password !== confirmPassword) {
+                alert("Passwords don't match!");
+                return;
+            }
+            
+            // Here you would typically send the data to your backend
+            console.log('Signing up:', { fullname, email, phone, password });
+            
+            // Show success animation
+            const btn = document.querySelector('.btn');
+            btn.innerHTML = '<i class="fas fa-check"></i> Account Created!';
+            btn.style.background = 'var(--primary)';
+            
+            // Redirect after delay (in a real app)
+            setTimeout(() => {
+                // window.location.href = 'dashboard.html';
+                alert('Redirecting to dashboard...');
+            }, 1500);
+        });
+        
+        // Add focus effects
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.querySelector('.input-icon').style.color = 'var(--primary)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.querySelector('.input-icon').style.color = 'var(--gray)';
+            });
+        });
+    </script> -->
+</body>
+</html>

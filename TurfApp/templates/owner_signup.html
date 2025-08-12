@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyTurf - Owner Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f9c4c;
+            --primary-dark: #0be633;
+            --secondary: #FFA000;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Hero Section */
+        .signup-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1600679472829-3044539ce8ed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .signup-hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .signup-hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Signup Container */
+        .signup-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+
+        /* Signup Form */
+        .signup-form {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .signup-form h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, 
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 136, 229, 0.3);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--gray);
+        }
+
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Turf Details Section */
+        .turf-details-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+
+        /* File Upload */
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            border: 2px dashed #e0e0e0;
+            border-radius: 8px;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+            background: rgba(30, 136, 229, 0.05);
+        }
+
+        .file-upload i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .signup-hero h2 {
+                font-size: 2rem;
+            }
+            
+            .signup-form {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .signup-hero {
+                padding: 3rem 1rem;
+            }
+            
+            .signup-hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-baseball-ball"></i>
+                    <h1><span style="color:#009624 ; font-family: 'Bungee', cursive ;">Only</span>Turf</h1>
+                </div>
+                <div>
+                    <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 500;">
+                        <i class="fas fa-chevron-left"></i> Back to Home
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="signup-hero">
+        <div class="container">
+            <h2>List Your Turf With Us</h2>
+            <p>Join India's fastest growing platform for turf owners and reach thousands of players looking to book quality sports facilities</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="signup-container">
+            <form class="signup-form" id="ownerSignupForm" method="post">
+                {% csrf_token %}
+                <h3>Owner Registration</h3>
+                
+                <!-- Personal Information -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="last_name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                </div>
+                
+                <!-- Business Information -->
+                <div class="turf-details-section">
+                    <h4 style="margin-bottom: 1rem; color: var(--primary);">Business Information</h4>
+                    
+                    <div class="form-group">
+                        <label for="businessName">Turf/Business Name</label>
+                        <input type="text" id="businessName" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="businessType">Business Type</label>
+                        <select id="businessType" required>
+                            <option value="">Select business type</option>
+                            <option value="individual">Individual Owner</option>
+                            <option value="company">Registered Company</option>
+                            <option value="partnership">Partnership</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Turf Address</label>
+                        <textarea id="address" rows="3" name="location"></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pincode">Pincode</label>
+                            <input type="text" id="pincode" required>
+                        </div>
+                    </div>
+                    
+                    <!-- Turf Images Upload -->
+                    <div class="form-group">
+                        <label>Upload Turf Photos (Max 5)</label>
+                        <div class="file-upload" id="turfPhotoUpload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Click to upload or drag and drop</span>
+                            <input type="file" id="turfPhotos" accept="image/*" multiple>
+                        </div>
+                    </div>
+                    
+                    <!-- Turf Amenities -->
+                    <div class="form-group">
+                        <label>Turf Amenities (Select all that apply)</label>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-top: 0.5rem;">
+                            <div>
+                                <input type="checkbox" id="floodlights" name="amenities">
+                                <label for="floodlights">Floodlights</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="practiceNets" name="amenities">
+                                <label for="practiceNets">Practice Nets</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="changingRooms" name="amenities">
+                                <label for="changingRooms">Changing Rooms</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="parking" name="amenities">
+                                <label for="parking">Parking</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="cafeteria" name="amenities">
+                                <label for="cafeteria">Cafeteria</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="equipmentRental" name="amenities">
+                                <label for="equipmentRental">Equipment Rental</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bank Details -->
+                <div class="turf-details-section">
+                    <h4 style="margin-bottom: 1rem; color: var(--primary);">Bank Details</h4>
+                    
+                    <div class="form-group">
+                        <label for="accountName">Account Holder Name</label>
+                        <input type="text" id="accountName" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accountNumber">Account Number</label>
+                            <input type="text" id="accountNumber" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ifsc">IFSC Code</label>
+                            <input type="text" id="ifsc" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bankName">Bank Name</label>
+                        <input type="text" id="bankName" required>
+                    </div>
+                </div>
+                
+                <!-- Terms and Conditions -->
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the <a href="#" style="color: var(--primary);">Terms & Conditions</a> and <a href="#" style="color: var(--primary);">Privacy Policy</a></label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-user-plus"></i> Register as Owner
+                </button>
+                
+                <div class="login-link">
+                    Already have an account? <a href="owner-login.html">Login here</a>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Features Section -->
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--primary);">Why List With TurfPro?</h3>
+            <p style="max-width: 700px; margin: 0 auto 2rem; color: var(--gray);">Join thousands of turf owners who are growing their business with our platform</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h4>Online Bookings</h4>
+                    <p>24/7 booking system to maximize your turf utilization</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-wallet"></i>
+                    <h4>Secure Payments</h4>
+                    <p>Timely payments directly to your bank account</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Business Insights</h4>
+                    <p>Analytics to help you optimize your operations</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-headset"></i>
+                    <h4>Dedicated Support</h4>
+                    <p>Our team is always ready to assist you</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // File upload interaction
+        document.getElementById('turfPhotoUpload').addEventListener('click', function() {
+            document.getElementById('turfPhotos').click();
+        });
+        
+        document.getElementById('turfPhotos').addEventListener('change', function(e) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                const uploadArea = document.getElementById('turfPhotoUpload');
+                uploadArea.innerHTML = `
+                    <i class="fas fa-check-circle" style="color: var(--primary);"></i>
+                    <span>${files.length} file(s) selected</span>
+                `;
+            }
+        });
+        
+        // Form submission
+        document.getElementById('ownerSignupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would collect all form data and send to your backend
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                businessName: document.getElementById('businessName').value,
+                // Add all other fields
+            };
+            
+            console.log('Owner registration submitted:', formData);
+            
+            // Show loading state
+            const btn = document.querySelector('.btn-primary');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Redirect to success page
+                window.location.href = 'owner-signup-success.html';
+            }, 2000);
+        });
+    </script>
+
+</body>
+</html>

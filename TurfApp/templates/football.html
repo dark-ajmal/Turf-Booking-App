@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyTurf - Book Your Turf</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C853;
+            --primary-dark: #009624;
+            --secondary: #FF6D00;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Booking Hero */
+        .booking-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1543357483-0676-0c7310d5a2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .booking-hero-content {
+            max-width: 600px;
+        }
+
+        .booking-hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Booking Container */
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Turf Details */
+        .turf-details {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+
+        .turf-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .turf-title h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .turf-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .turf-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+
+        .turf-rating span {
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .turf-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .turf-image {
+            height: 150px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .turf-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .turf-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .turf-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-icon {
+            width: 30px;
+            height: 30px;
+            background: rgba(0, 200, 83, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        /* Booking Form */
+        .booking-form-container {
+            position: sticky;
+            top: 100px;
+        }
+
+        .booking-form {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+
+        .price-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .price-unit {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.1);
+        }
+
+        .date-time-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .time-slot {
+            padding: 0.6rem;
+            text-align: center;
+            background: var(--light);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .time-slot:hover {
+            background: rgba(0, 200, 83, 0.1);
+        }
+
+        .time-slot.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 200, 83, 0.3);
+        }
+
+        /* Turf Rules */
+        .turf-rules {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .turf-rules h3 {
+            margin-bottom: 1rem;
+        }
+
+        .rules-list {
+            list-style-position: inside;
+        }
+
+        .rules-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-form-container {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .turf-images {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .date-time-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .turf-images {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-futbol"></i>
+                    <h1><span style="color:#009624 ; font-family: 'Bungee', cursive ;">Only</span>Turf</h1>
+                </div>
+                <div>
+                    <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 500;">
+                        <i class="fas fa-chevron-left"></i> Back to Turfs
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Booking Hero -->
+    <section class="booking-hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="#">Home</a>
+                <span>/</span>
+                <a href="#">Football Turfs</a>
+                <span>/</span>
+                <a href="#">Elite Football Arena</a>
+            </div>
+            <div class="booking-hero-content">
+                <h2>Elite Football Arena</h2>
+                <p>5-a-side football turf with floodlights and premium artificial grass</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="booking-container">
+            <!-- Turf Details -->
+            <div class="turf-details">
+                <div class="turf-header">
+                    <div class="turf-title">
+                        <h2>Elite Football Arena</h2>
+                        <div class="turf-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Sector 15, Noida - 2.5 km from your location</span>
+                        </div>
+                        <div class="turf-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(128 reviews)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Turf Images -->
+                <div class="turf-images">
+                    <div class="turf-image">
+                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Turf Image 1">
+                    </div>
+                    <div class="turf-image">
+                        <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1605&q=80" alt="Turf Image 2">
+                    </div>
+                    <div class="turf-image">
+                        <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Turf Image 3">
+                    </div>
+                </div>
+
+                <!-- Turf Features -->
+                <h3>Facility Features</h3>
+                <div class="turf-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <span>Floodlights</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-restroom"></i>
+                        </div>
+                        <span>Changing Rooms</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <span>Parking</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <span>Jersey Rental</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <span>Cafeteria</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-first-aid"></i>
+                        </div>
+                        <span>First Aid</span>
+                    </div>
+                </div>
+
+                <!-- Turf Description -->
+                <h3 style="margin-top: 1.5rem;">Description</h3>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem;">
+                    Our Elite Football Arena features FIFA-approved artificial turf with perfect bounce and roll. 
+                    The facility is equipped with professional floodlights for night games, clean changing rooms, 
+                    and ample parking space. Perfect for 5-a-side matches with friends or competitive games.
+                </p>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="booking-form-container">
+                <div class="booking-form">
+                    <div class="price-display">
+                        ₹800 <span class="price-unit">/ hour</span>
+                    </div>
+
+                    <form id="bookingForm">
+                        <div class="form-group">
+                            <label for="bookingDate">Date</label>
+                            <input type="date" id="bookingDate" required>
+                        </div>
+
+                        <div class="form-group date-time-selector">
+                            <div>
+                                <label for="startTime">Start Time</label>
+                                <select id="startTime" required>
+                                    <option value="">Select time</option>
+                                    <option value="06:00">6:00 AM</option>
+                                    <option value="07:00">7:00 AM</option>
+                                    <option value="08:00">8:00 AM</option>
+                                    <option value="17:00">5:00 PM</option>
+                                    <option value="18:00">6:00 PM</option>
+                                    <option value="19:00">7:00 PM</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="duration">Duration</label>
+                                <select id="duration" required>
+                                    <option value="1">1 hour</option>
+                                    <option value="1.5">1.5 hours</option>
+                                    <option value="2">2 hours</option>
+                                    <option value="3">3 hours</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Available Slots</label>
+                            <div class="time-slots">
+                                <div class="time-slot">6:00 PM</div>
+                                <div class="time-slot">7:00 PM</div>
+                                <div class="time-slot selected">8:00 PM</div>
+                                <div class="time-slot">9:00 PM</div>
+                                <div class="time-slot">10:00 PM</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="players">Number of Players</label>
+                            <input type="number" id="players" min="1" max="20" value="10" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-calendar-check"></i> Book Now
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Turf Rules -->
+                <div class="turf-rules">
+                    <h3>Turf Rules</h3>
+                    <ul class="rules-list">
+                        <li>Booking must be made at least 2 hours in advance</li>
+                        <li>Cancellation allowed up to 24 hours before booking</li>
+                        <li>Proper sports shoes required (no cleats)</li>
+                        <li>No food or drinks on the turf</li>
+                        <li>50% payment required for confirmation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Time slot selection
+        const timeSlots = document.querySelectorAll('.time-slot');
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', function() {
+                timeSlots.forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('startTime').value = this.textContent + ':00';
+            });
+        });
+
+        // Form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const date = document.getElementById('bookingDate').value;
+            const startTime = document.getElementById('startTime').value;
+            const duration = document.getElementById('duration').value;
+            const players = document.getElementById('players').value;
+            
+            // Here you would typically send the booking data to your backend
+            console.log('Booking submitted:', { date, startTime, duration, players });
+            
+            // Show loading state
+            const btn = document.querySelector('.btn-primary');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Redirect to payment page
+                window.location.href = 'payment.html';
+            }, 1500);
+        });
+
+        // Set default date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const formattedDate = tomorrow.toISOString().split('T')[0];
+        document.getElementById('bookingDate').value = formattedDate;
+        document.getElementById('bookingDate').min = formattedDate;
+    </script>
+</body>
+</html>

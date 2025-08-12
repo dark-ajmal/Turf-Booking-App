@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnlyTurf - Badminton Court Booking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C853;
+            --primary-dark: #009624;
+            --secondary: #FF6D00;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        /* Booking Hero */
+        .booking-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1547036965-61e7c56d14d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .booking-hero-content {
+            max-width: 600px;
+        }
+
+        .booking-hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Booking Container */
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Court Details */
+        .court-details {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+
+        .court-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .court-title h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .court-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .court-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+
+        .court-rating span {
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .court-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .court-image {
+            height: 150px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .court-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .court-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .court-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .feature-icon {
+            width: 30px;
+            height: 30px;
+            background: rgba(0, 200, 83, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        /* Booking Form */
+        .booking-form-container {
+            position: sticky;
+            top: 100px;
+        }
+
+        .booking-form {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+        }
+
+        .price-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .price-unit {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 200, 83, 0.1);
+        }
+
+        .date-time-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .time-slot {
+            padding: 0.6rem;
+            text-align: center;
+            background: var(--light);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .time-slot:hover {
+            background: rgba(0, 200, 83, 0.1);
+        }
+
+        .time-slot.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 200, 83, 0.3);
+        }
+
+        /* Court Rules */
+        .court-rules {
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .court-rules h3 {
+            margin-bottom: 1rem;
+        }
+
+        .rules-list {
+            list-style-position: inside;
+        }
+
+        .rules-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Court Type Selector */
+        .court-type-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .court-type {
+            flex: 1;
+            padding: 0.8rem;
+            text-align: center;
+            background: var(--light);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .court-type:hover {
+            background: rgba(0, 200, 83, 0.1);
+        }
+
+        .court-type.selected {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-form-container {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .court-images {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .date-time-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .court-type-selector {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .court-images {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-table-tennis"></i>
+                    <h1><span style="color:#009624 ; font-family: 'Poppins', sans-serif; font-weight: 700;">Only</span>Turf</h1>
+                </div>
+                <div>
+                    <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 500;">
+                        <i class="fas fa-chevron-left"></i> Back to Courts
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Booking Hero -->
+    <section class="booking-hero">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="#">Home</a>
+                <span>/</span>
+                <a href="#">Badminton Courts</a>
+                <span>/</span>
+                <a href="#">Shuttle Pro Arena</a>
+            </div>
+            <div class="booking-hero-content">
+                <h2>Shuttle Pro Arena</h2>
+                <p>Professional badminton courts with international standard flooring and lighting</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="booking-container">
+            <!-- Court Details -->
+            <div class="court-details">
+                <div class="court-header">
+                    <div class="court-title">
+                        <h2>Shuttle Pro Arena</h2>
+                        <div class="court-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Whitefield, Bangalore - 4.2 km from your location</span>
+                        </div>
+                        <div class="court-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(86 reviews)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Court Images -->
+                <div class="court-images">
+                    <div class="court-image">
+                        <img src="https://images.unsplash.com/photo-1547036965-61e7c56d14d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Court Image 1">
+                    </div>
+                    <div class="court-image">
+                        <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Court Image 2">
+                    </div>
+                    <div class="court-image">
+                        <img src="https://images.unsplash.com/photo-1622279450239-030049e8a92f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Court Image 3">
+                    </div>
+                </div>
+
+                <!-- Court Features -->
+                <h3>Facility Features</h3>
+                <div class="court-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <span>Professional Lighting</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-floor"></i>
+                        </div>
+                        <span>PVC Mat Flooring</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-fan"></i>
+                        </div>
+                        <span>Air Conditioned</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <span>Racket Rental</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shoe-prints"></i>
+                        </div>
+                        <span>Shoe Rental</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <span>Drinking Water</span>
+                    </div>
+                </div>
+
+                <!-- Court Description -->
+                <h3 style="margin-top: 1.5rem;">Description</h3>
+                <p style="line-height: 1.6; margin-bottom: 1.5rem;">
+                    Shuttle Pro Arena features 4 international standard badminton courts with professional PVC mat flooring 
+                    that provides excellent grip and shock absorption. Our facility is fully air-conditioned with tournament-level 
+                    lighting that eliminates shadows. Perfect for casual games, training sessions, and competitive matches. 
+                    We provide high-quality Yonex rackets and shoes for rent.
+                </p>
+                
+                <!-- Court Types Available -->
+                <h3 style="margin-top: 1.5rem;">Court Types Available</h3>
+                <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div style="flex: 1; background: #E8F5E9; padding: 1rem; border-radius: 8px;">
+                        <h4 style="margin-bottom: 0.5rem; color: var(--primary);">Standard Court</h4>
+                        <p>₹600/hour</p>
+                    </div>
+                    <div style="flex: 1; background: #E8F5E9; padding: 1rem; border-radius: 8px;">
+                        <h4 style="margin-bottom: 0.5rem; color: var(--primary);">Premium Court</h4>
+                        <p>₹900/hour</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="booking-form-container">
+                <div class="booking-form">
+                    <div class="price-display">
+                        ₹600 <span class="price-unit">/ hour</span>
+                    </div>
+
+                    <form id="bookingForm">
+                        <!-- Court Type Selector -->
+                        <div class="form-group">
+                            <label>Court Type</label>
+                            <div class="court-type-selector">
+                                <div class="court-type selected">Standard</div>
+                                <div class="court-type">Premium</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bookingDate">Date</label>
+                            <input type="date" id="bookingDate" required>
+                        </div>
+
+                        <div class="form-group date-time-selector">
+                            <div>
+                                <label for="startTime">Start Time</label>
+                                <select id="startTime" required>
+                                    <option value="">Select time</option>
+                                    <option value="06:00">6:00 AM</option>
+                                    <option value="07:00">7:00 AM</option>
+                                    <option value="08:00">8:00 AM</option>
+                                    <option value="17:00">5:00 PM</option>
+                                    <option value="18:00">6:00 PM</option>
+                                    <option value="19:00">7:00 PM</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="duration">Duration</label>
+                                <select id="duration" required>
+                                    <option value="1">1 hour</option>
+                                    <option value="1.5">1.5 hours</option>
+                                    <option value="2">2 hours</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Available Slots</label>
+                            <div class="time-slots">
+                                <div class="time-slot">6:00 PM</div>
+                                <div class="time-slot selected">7:00 PM</div>
+                                <div class="time-slot">8:00 PM</div>
+                                <div class="time-slot">9:00 PM</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="players">Number of Players</label>
+                            <input type="number" id="players" min="2" max="4" value="2" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="equipment">Equipment Needed</label>
+                            <select id="equipment" multiple style="height: auto;">
+                                <option value="racket">Racket (₹100)</option>
+                                <option value="shoes">Shoes (₹150)</option>
+                                <option value="shuttles">Shuttles (₹200)</option>
+                            </select>
+                            <small style="color: var(--gray);">Hold Ctrl to select multiple</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-calendar-check"></i> Book Now
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Court Rules -->
+                <div class="court-rules">
+                    <h3>Court Rules</h3>
+                    <ul class="rules-list">
+                        <li>Booking must be made at least 3 hours in advance</li>
+                        <li>Cancellation allowed up to 12 hours before booking</li>
+                        <li>Non-marking shoes mandatory</li>
+                        <li>No food or drinks on the court</li>
+                        <li>Full payment required for confirmation</li>
+                        <li>Maximum 4 players per court</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Time slot selection
+        const timeSlots = document.querySelectorAll('.time-slot');
+        timeSlots.forEach(slot => {
+            slot.addEventListener('click', function() {
+                timeSlots.forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('startTime').value = this.textContent + ':00';
+            });
+        });
+
+        // Court type selection
+        const courtTypes = document.querySelectorAll('.court-type');
+        courtTypes.forEach(type => {
+            type.addEventListener('click', function() {
+                courtTypes.forEach(t => t.classList.remove('selected'));
+                this.classList.add('selected');
+                
+                // Update price display
+                const priceDisplay = document.querySelector('.price-display');
+                if (this.textContent === 'Premium') {
+                    priceDisplay.innerHTML = '₹900 <span class="price-unit">/ hour</span>';
+                } else {
+                    priceDisplay.innerHTML = '₹600 <span class="price-unit">/ hour</span>';
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const courtType = document.querySelector('.court-type.selected').textContent;
+            const date = document.getElementById('bookingDate').value;
+            const startTime = document.getElementById('startTime').value;
+            const duration = document.getElementById('duration').value;
+            const players = document.getElementById('players').value;
+            
+            // Here you would typically send the booking data to your backend
+            console.log('Badminton booking submitted:', { courtType, date, startTime, duration, players });
+            
+            // Show loading state
+            const btn = document.querySelector('.btn-primary');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Redirect to payment page
+                window.location.href = 'payment.html';
+            }, 1500);
+        });
+
+        // Set default date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const formattedDate = tomorrow.toISOString().split('T')[0];
+        document.getElementById('bookingDate').value = formattedDate;
+        document.getElementById('bookingDate').min = formattedDate;
+    </script>
+</body>
+</html>
