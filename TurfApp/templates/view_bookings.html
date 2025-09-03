@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings for {{ turf.name }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C853;
+            --primary-dark: #009624;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #f5f7fa; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem 0;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        .logo { display: flex; align-items: center; padding: 0 1.5rem; margin-bottom: 2rem; }
+        .logo i { font-size: 1.8rem; color: var(--primary); margin-right: 10px; }
+        .logo h1 { font-size: 1.3rem; font-weight: 600; }
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 0.5rem; }
+        .nav-link { display: flex; align-items: center; padding: 0.8rem 1.5rem; color: var(--gray); text-decoration: none; transition: all 0.3s; }
+        .nav-link i { margin-right: 10px; width: 20px; text-align: center; }
+        .nav-link:hover, .nav-link.active { background: rgba(0, 200, 83, 0.1); color: var(--primary); border-left: 3px solid var(--primary); }
+        .main-content { flex: 1; margin-left: 250px; padding: 2rem; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .header-title h2 { font-size: 1.8rem; }
+        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none; font-weight: 500; border: none; cursor: pointer; transition: all 0.3s; }
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: rgba(0, 200, 83, 0.1); }
+        .card { background: white; border-radius: 12px; box-shadow: var(--card-shadow); overflow: hidden; }
+        .card-header { padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .card-title { font-size: 1.2rem; font-weight: 600; }
+        .card-body { padding: 0; } /* No padding for table */
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem 1.5rem; text-align: left; border-bottom: 1px solid #f0f0f0; }
+        th { font-size: 0.9rem; color: var(--gray); text-transform: uppercase; font-weight: 500; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background-color: #f9f9f9; }
+        .badge { padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .badge-confirmed { background: rgba(0, 200, 83, 0.15); color: #009624; }
+        .badge-cancelled { background: rgba(220, 53, 69, 0.15); color: #dc3545; }
+        .badge-completed { background: rgba(23, 162, 184, 0.15); color: #17a2b8; }
+        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+        .btn-primary { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-futbol"></i>
+                <h1><span style="color:#009624;">Only</span>Turf</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="{% url 'owner_view' %}" class="nav-link"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link active"><i class="fas fa-calendar-alt"></i><span>Bookings</span></a></li>
+                <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <div class="header-title">
+                    <h2>Bookings for {{ turf.name }}</h2>
+                </div>
+                <a href="{% url 'owner_view' %}" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">All Bookings</h3>
+                    <!-- Add search/filter inputs here if needed -->
+                </div>
+                <div class="card-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Player</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Players</th>
+                                <th>Status</th>
+                                <th></th> <!-- Empty header for action button -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for booking in bookings %}
+                            <tr>
+                                <td>#{{ booking.id }}</td>
+                                <td>{{ booking.player.name }}</td>
+                                <td>{{ booking.date|date:"d M Y" }}</td>
+                                <td>{{ booking.start_time|time:"h:i A" }}</td>
+                                <td>{{ booking.no_of_players }}</td>
+                                <td><span class="badge badge-{{ booking.status|lower }}">{{ booking.status }}</span></td>
+                                <td>
+                                    <a href="{% url 'owner_booking_detail' booking_id=booking.id %}" class="btn btn-sm btn-primary">View Details</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 2rem;">No bookings found for this turf yet.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

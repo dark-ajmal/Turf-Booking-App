@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,43 +26,37 @@
         }
 
         body {
-            background: url(pngtree-artificial-turf-football-stadium-image_15730923.jpg) no-repeat center center / cover;
+            /* --- NEW BACKGROUND --- */
+            background: url("{% static 'images/background.jpg' %}") no-repeat center center / cover;
             color: var(--dark);
             overflow-x: hidden;
+            background-attachment: fixed;
         }
-
-        /* Animated Background Elements */
-        .floating-football {
+        
+        /* --- NEW ANIMATED BALLS --- */
+        .floating-ball {
             position: absolute;
             width: 50px;
             height: 50px;
-            background: url('https://cdn-icons-png.flaticon.com/512/53/53283.png') no-repeat center/contain;
-            opacity: 0.1;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.15;
             z-index: -1;
-            animation: float 15s infinite linear;
+            animation: float 20s infinite linear;
         }
+
+        .football { background-image: url('https://cdn-icons-png.flaticon.com/512/53/53283.png'); color: #f8f9fa;}
+        .basketball { background-image: url('https://cdn-icons-png.flaticon.com/512/889/889442.png'); width: 45px; height: 45px;color: aliceblue; }
+        .cricket-ball { background-image: url('https://cdn-icons-png.flaticon.com/512/5900/5900548.png'); width: 40px; height: 40px; }
+        .shuttlecock { background-image: url('https://cdn-icons-png.flaticon.com/512/1157/1157223.png'); width: 35px; height: 35px; }
+        .american-football { background-image: url('https://cdn-icons-png.flaticon.com/512/3069/3069348.png'); width: 55px; height: 55px; }
 
         @keyframes float {
             0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-50px) rotate(180deg); }
+            25% { transform: translateY(-20px) translateX(20px) rotate(90deg); }
+            50% { transform: translateY(0) translateX(40px) rotate(180deg); }
+            75% { transform: translateY(20px) translateX(20px) rotate(270deg); }
             100% { transform: translateY(0) rotate(360deg); }
-        }
-
-        .wave-bg {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: url('https://www.transparenttextures.com/patterns/wavecut.png');
-            opacity: 0.05;
-            z-index: -1;
-            animation: wave 20s infinite linear;
-        }
-
-        @keyframes wave {
-            0% { background-position-x: 0; }
-            100% { background-position-x: 1000px; }
         }
 
         /* Header & Navigation */
@@ -111,24 +106,8 @@
             color: var(--dark);
             font-weight: 500;
             transition: color 0.3s;
-            position: relative;
         }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            bottom: -5px;
-            left: 0;
-            transition: width 0.3s;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
+        
         .auth-buttons .btn {
             padding: 0.5rem 1.2rem;
             border-radius: 5px;
@@ -137,34 +116,19 @@
             transition: all 0.3s;
         }
 
-        .btn-login {
+        .btn-logout {
             background: transparent;
             border: 1px solid var(--primary);
             color: var(--primary);
         }
 
-        .btn-login:hover {
+        .btn-logout:hover {
             background: var(--primary);
             color: white;
-        }
-
-        .btn-signup {
-            background: var(--primary);
-            border: 1px solid var(--primary);
-            color: white;
-            margin-left: 1rem;
-        }
-
-        .btn-signup:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1543357483-0676-0c7310d5a2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
-            background-size: cover;
-            background-position: center;
             height: 70vh;
             display: flex;
             align-items: center;
@@ -173,20 +137,18 @@
             color: white;
             padding: 0 5%;
             position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
         }
 
         .hero-content h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
-            animation: fadeInUp 1s ease-out;
         }
 
         .hero-content p {
             font-size: 1.2rem;
             margin-bottom: 2rem;
             max-width: 700px;
-            animation: fadeInUp 1s ease-out 0.2s forwards;
-            opacity: 0;
         }
 
         .search-bar {
@@ -196,16 +158,6 @@
             overflow: hidden;
             max-width: 700px;
             margin: 0 auto;
-            animation: fadeInUp 1s ease-out 0.4s forwards;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .search-bar input {
@@ -230,17 +182,15 @@
         }
 
         /* Turf Listings */
+        .turf-listings-section {
+             background: white;
+             padding: 3rem 0;
+        }
         .section-title {
             text-align: center;
-            margin: 3rem 0 1.5rem;
+            margin-bottom: 1.5rem;
             font-size: 2rem;
             font-weight: 600;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 0.6s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
         }
 
         .turf-listings {
@@ -258,13 +208,11 @@
             overflow: hidden;
             box-shadow: var(--card-shadow);
             transition: transform 0.3s, box-shadow 0.3s;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
         }
-
-        .turf-card:nth-child(1) { animation-delay: 0.7s; }
-        .turf-card:nth-child(2) { animation-delay: 0.9s; }
-        .turf-card:nth-child(3) { animation-delay: 1.1s; }
 
         .turf-card:hover {
             transform: translateY(-10px);
@@ -289,6 +237,9 @@
 
         .turf-info {
             padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .turf-info h3 {
@@ -299,12 +250,14 @@
         .turf-info p {
             color: var(--gray);
             margin-bottom: 1rem;
+            flex-grow: 1;
         }
 
         .turf-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: auto;
         }
 
         .price {
@@ -319,184 +272,76 @@
             border: none;
             padding: 0.5rem 1rem;
             border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
+            font-weight: 500;
         }
 
-        .btn-book:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        /* Promotions */
         .promo-banner {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            text-align: center;
-            padding: 3rem 5%;
-            margin: 3rem 0;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1.3s forwards;
+            color: white; text-align: center; padding: 3rem 5%;
         }
-
-        .promo-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            animation: pulse 8s infinite linear;
-            z-index: 0;
-        }
-
-        @keyframes pulse {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .promo-banner h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .promo-banner p {
-            margin-bottom: 1.5rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 1;
-        }
-
+        .promo-banner h2 { font-size: 2rem; margin-bottom: 1rem; }
         .btn-promo {
-            background: white;
-            color: var(--primary);
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            z-index: 1;
+            background: white; color: var(--primary); border: none;
+            padding: 0.8rem 2rem; border-radius: 50px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s;
         }
+        .btn-promo:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
 
-        .btn-promo:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        .testimonials { background: var(--light); padding: 5rem 5%; text-align: center; }
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 3rem auto 0; }
+        .testimonial-card { background: white; border-radius: 10px; padding: 2rem; text-align: left; box-shadow: var(--card-shadow); }
+        .testimonial-text { font-style: italic; margin-bottom: 1.5rem; color: var(--dark); line-height: 1.6; }
+        .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+        .author-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+        .author-info h4 { margin-bottom: 0.2rem; color: var(--dark); }
+        .author-info p { color: var(--gray); font-size: 0.9rem; }
+
+
+        footer { background: var(--dark); color: white; padding: 4rem 5% 2rem; }
+        .footer-content {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem; max-width: 1200px; margin: 0 auto 3rem;
         }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 3rem 5%;
-            text-align: center;
-            position: relative;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .social-icons a {
-            color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .social-icons a:hover {
-            color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .copyright {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-
-            .search-bar {
-                flex-direction: column;
-                border-radius: 10px;
-            }
-
-            .search-bar input, .search-bar button {
-                width: 100%;
-                border-radius: 0;
-            }
-
-            .turf-listings {
-                grid-template-columns: 1fr;
-            }
-        }
+        .footer-about .footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+        .footer-about .footer-logo i { font-size: 1.8rem; }
+        .footer-about .footer-logo h2 { font-family: 'Bungee', cursive; font-size: 1.5rem; }
+        .footer-about p { color: var(--gray); line-height: 1.6; margin-bottom: 1.5rem; }
+        .social-links { display: flex; gap: 1rem; }
+        .social-links a { color: white; font-size: 1.2rem; transition: color 0.3s; }
+        .social-links a:hover { color: var(--primary); }
+        .footer-links h3 { margin-bottom: 1.5rem; font-size: 1.2rem; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 0.8rem; }
+        .footer-links a { color: var(--gray); text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary); }
+        .footer-bottom { text-align: center; padding-top: 2rem; margin-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1); color: var(--gray); font-size: 0.9rem; }
+        
     </style>
 </head>
 <body>
     <!-- Animated Background Elements -->
-    <div class="floating-football" style="top: 20%; left: 10%;"></div>
-    <div class="floating-football" style="top: 70%; left: 80%; animation-delay: 2s;"></div>
-    <div class="floating-football" style="top: 40%; left: 60%; animation-delay: 4s;"></div>
-    <div class="wave-bg"></div>
+    <div class="floating-ball football" style="top: 20%; left: 10%;"></div>
+    <div class="floating-ball basketball" style="top: 70%; left: 80%; animation-duration: 25s; animation-delay: 2s;"></div>
+    <div class="floating-ball cricket-ball" style="top: 40%; left: 60%; animation-duration: 18s; animation-delay: 4s;"></div>
+    <div class="floating-ball shuttlecock" style="top: 80%; left: 20%; animation-duration: 22s; animation-delay: 6s;"></div>
+    <div class="floating-ball american-football" style="top: 10%; left: 75%; animation-duration: 28s; animation-delay: 8s;"></div>
 
     <!-- Header -->
     <header>
         <nav class="navbar">
             <div class="logo">
                 <i class="fas fa-futbol"></i>
-                <h1><span style="color:#009624 ; font-family: 'Bungee', cursive ;">Only</span>Turf</h1>
+                <h1><span style="color:#009624;">Only</span>Turf</h1>
             </div>
             <div class="nav-links">
                 <a href="#">Home</a>
-                <a href="#">Turfs</a>
-                <a href="#">Bookings</a>
-                <a href="#">Offers</a>
+                <a href="{% url 'home_turf_view' %}">Turfs</a>
+                <a href="{% url 'my_bookings' %}">My Bookings</a>
                 <a href="#">Contact</a>
             </div>
             <div class="auth-buttons">
-                <button class="btn btn-login">Login</button>
-                <button class="btn btn-signup">Sign Up</button>
+                <a href="{% url 'logout_view' %}" class="btn btn-logout" style="text-decoration: none;">Logout</a>
             </div>
         </nav>
     </header>
@@ -505,7 +350,7 @@
     <section class="hero">
         <div class="hero-content">
             <h1>Book Premium Turfs in Minutes</h1>
-            <p>Find and reserve the best football, cricket, and badminton turfs near you at unbeatable prices.</p>
+            <p>Find and reserve the best sports turfs near you at unbeatable prices.</p>
             <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="Search by location, sport, or turf name...">
                 <button><i class="fas fa-search"></i> Search</button>
@@ -514,132 +359,159 @@
     </section>
 
     <!-- Turf Listings -->
-    <section>
-        <h2 class="section-title">Popular Turfs Near You</h2>
-        <div class="turf-listings">
-<!-- Turf Card 1 -->
-<div class="turf-card" id="firstTurfCard" data-name="Elite Football Arena" data-tags="football 5-a-side floodlights changing rooms">
-
-    <div class="turf-img">
-        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Football Turf">
-    </div>
-    <div class="turf-info">
-        <h3>Elite Football Arena</h3>
-        <p>5-a-side | Floodlights | Changing Rooms</p>
-        <div class="turf-meta">
-            <span class="price">₹800/hr</span>
-            <button class="btn-book">Book Now</button>
+    <section class="turf-listings-section">
+        <div class="container">
+            <h2 class="section-title">Popular Turfs Near You</h2>
+            <div class="turf-listings">
+                {% for turf in turfs %}
+                <a href="{% url 'booking_page' turf_id=turf.id %}" class="turf-card">
+                    <div class="turf-img">
+                        {% if turf.image %}
+                            <img src="{{ turf.image.url }}" alt="{{ turf.name }}">
+                        {% else %}
+                            <div class="no-image-placeholder">
+                                <i class="fas fa-image"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="turf-info">
+                        <h3>{{ turf.name }}</h3>
+                        <p>{{ turf.location }} - {{ turf.sports_type }}</p>
+                        <div class="turf-meta">
+                            <span class="price">₹{{ turf.price_per_hour }}/hour</span>
+                            <div class="btn-book">Book Now</div>
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                    <p>No turfs available at the moment. Please check back later!</p>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-</div>
-
-<!-- Turf Card 2 -->
-<div class="turf-card" id="secondTurfCard" data-name="Grand Cricket Ground" data-tags="cricket 22-yard pitch nets seating">
-    <div class="turf-img">
-        <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1605&q=80" alt="Cricket Turf">
-    </div>
-    <div class="turf-info">
-        <h3>Grand Cricket Ground</h3>
-        <p>22-yard pitch | Practice nets | Seating</p>
-        <div class="turf-meta">
-            <span class="price">₹1200/hr</span>
-            <button class="btn-book">Book Now</button>
-        </div>
-    </div>
-</div>
-
-<!-- Turf Card 3 -->
-<div class="turf-card" id="thirdTurfCard" data-name="Sky Badminton Club" data-tags="badminton ac coaching shuttles indoor">
-    <div class="turf-img">
-        <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Badminton Court">
-    </div>
-    <div class="turf-info">
-        <h3>Sky Badminton Club</h3>
-        <p>AC Courts | Premium Shuttles | Coaching</p>
-        <div class="turf-meta">
-            <span class="price">₹500/hr</span>
-            <button class="btn-book">Book Now</button>
-        </div>
-    </div>
-</div>
-
     </section>
 
-    <!-- Promotions Banner -->
+    <!-- Testimonials Section -->
+
+    <section class="testimonials">
+        <h2 class="section-title">Join Over 1 Million Players</h2>
+        <p class="section-subtitle">Don't just take our word for it - hear from our community</p>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Only Turf has completely changed how my friends and I book football pitches. We used to call multiple places - now it's all in one app!"</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="author-avatar">
+                    <div class="author-info">
+                        <h4>Rajesh Kumar</h4>
+                        <p>Football Enthusiast</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"As a cricket coach, I book multiple turfs every week. This platform saves me hours of coordination and always gets me the best rates."</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="User" class="author-avatar">
+                    <div class="author-info">
+                        <h4>Vikram Singh</h4>
+                        <p>Cricket Coach</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"The mobile app is so convenient! I can book badminton courts during my commute and get instant confirmation. A game-changer!"</p>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="User" class="author-avatar">
+                    <div class="author-info">
+                        <h4>Priya Sharma</h4>
+                        <p>Badminton Player</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promotional Banner -->
+
     <section class="promo-banner">
         <h2>Get 20% Off Your First Booking!</h2>
-        <p>Use code <strong>TURFPRO20</strong> at checkout to avail the discount. Limited time offer!</p>
+        <p>Use code <strong>ONLYTURF20</strong> at checkout to avail the discount. Limited time offer!</p>
         <button class="btn-promo">Book Now & Save</button>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-links">
-            <a href="#">About Us</a>
-            <a href="#">Turfs</a>
-            <a href="#">Pricing</a>
-            <a href="#">Blog</a>
-            <a href="#">Contact</a>
+        <div class="footer-content">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <i class="fas fa-futbol"></i>
+                    <h2><span style="color:var(--primary);">Only</span>Turf</h2>
+                </div>
+                <p>The leading platform for sports turf bookings, connecting players with premium facilities.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i        class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <div class="footer-bottom">
+            <p>&copy; {% now "Y" %} Only Turf. All rights reserved.</p>
         </div>
-        <p class="copyright">© 2023 Only Turf. All rights reserved.</p>
     </footer>
+
     <script>
-    document.querySelector('.search-bar button').addEventListener('click', function () {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        const cards = document.querySelectorAll('.turf-card');
+        document.addEventListener('DOMContentLoaded', function() {
+            function handleSearch() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                const cards = document.querySelectorAll('.turf-card');
 
-        cards.forEach(card => {
-            const name = card.getAttribute('data-name').toLowerCase();
-            const tags = card.getAttribute('data-tags').toLowerCase();
+                cards.forEach(card => {
+                    const name = card.querySelector('h3').textContent.toLowerCase();
+                    const location = card.querySelector('p').textContent.toLowerCase();
 
-            if (name.includes(searchTerm) || tags.includes(searchTerm)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
+                    if (name.includes(searchTerm) || location.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             }
-        });
-    });
-</script>
 
-<script>
-    document.getElementById('searchInput').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            document.querySelector('.search-bar button').click();
-        }
-    });
-</script>
-    <script>
-        // Floating footballs
-        const footballs = document.querySelectorAll('.floating-football');
-        footballs.forEach((football, index) => {
-            football.style.top = `${Math.random() * 100}%`;
-            football.style.left = `${Math.random() * 100}%`;
-            football.style.animationDelay = `${index * 2}s`;
+            document.querySelector('.search-bar button').addEventListener('click', handleSearch);
+
+            document.getElementById('searchInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevents form submission
+                    handleSearch();
+                }
+            });
         });
     </script>
-    <script>
-    document.getElementById('firstTurfCard').addEventListener('click', function () {
-        window.location.href = "/football/";
-    });
-</script>
-
-<script>
-    document.getElementById('secondTurfCard').addEventListener('click', function () {
-        window.location.href = "/cricket/";
-    });
-</script>
-
-<script>
-    document.getElementById('thirdTurfCard').addEventListener('click', function () {
-        window.location.href = "/badminton/";
-    });
-</script>
-
 </body>
 </html>
+

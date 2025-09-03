@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OnlyTurf - Register New Turf</title>
+    <title>OnlyTurf - Edit {{ turf.name }}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -37,7 +37,7 @@
 <body>
     <div class="container">
         <div class="page-header">
-            <h2>Register New Turf</h2>
+            <h2>Edit {{ turf.name }}</h2>
         </div>
 
         <form class="form-container" method="post" enctype="multipart/form-data">
@@ -73,7 +73,7 @@
                 <div id="tag-container" class="tag-container"></div>
             </div>
 
-            <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">Register Turf</button>
+            <button type="submit" class="btn-primary" style="margin-top: 1.5rem;">Update Turf</button>
         </form>
     </div>
 
@@ -82,11 +82,10 @@
             const tagInput = document.getElementById('custom-amenity-input');
             const addTagBtn = document.getElementById('add-tag-btn');
             const tagContainer = document.getElementById('tag-container');
-            // --- FIX: Use getElementById for a more reliable selector ---
-            const hiddenInput = document.getElementById('id_custom_amenities');
+            const hiddenInput = document.querySelector('[name="custom_amenities"]');
 
             if (!hiddenInput) {
-                console.error("Could not find the hidden input for custom amenities. Make sure your form is rendering it.");
+                console.error("Could not find the hidden input for custom amenities.");
                 return;
             }
 
@@ -118,6 +117,15 @@
                     updateHiddenInput();
                 }
             });
+
+            if (hiddenInput.value) {
+                const existingTags = hiddenInput.value.split(',');
+                existingTags.forEach(tagText => {
+                    if (tagText.trim()) {
+                        createTag(tagText.trim());
+                    }
+                });
+            }
         });
     </script>
 </body>

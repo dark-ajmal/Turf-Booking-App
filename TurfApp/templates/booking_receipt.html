@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Receipt - #{{ booking.id }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C853;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .receipt-container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 2.5rem;
+        }
+        .receipt-header {
+            text-align: center;
+            border-bottom: 2px dashed #eee;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .receipt-header h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .booking-details h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .detail-item span:first-child { color: var(--gray); }
+        .detail-item span:last-child { font-weight: 600; }
+        .total-section {
+            border-top: 2px dashed #eee;
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            text-align: right;
+        }
+        .total-section h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        .actions {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 0.5rem;
+        }
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-secondary { background-color: #eee; color: var(--dark); }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="receipt-header">
+            <h1>Booking Confirmed!</h1>
+            <p>Thank you for booking with OnlyTurf.</p>
+        </div>
+
+        <div class="booking-details">
+            <h2>Reservation Summary</h2>
+            <div class="detail-item">
+                <span>Booking ID:</span>
+                <span>OT-{{ booking.id }}</span>
+            </div>
+            <div class="detail-item">
+                <span>Player Name:</span>
+                <!-- THIS LINE IS NOW CORRECTED -->
+                <span>{{ booking.player.name|default:booking.player.username }}</span>
+            </div>
+            <div class="detail-item">
+                <span>Turf Name:</span>
+                <span>{{ booking.turf.name }}</span>
+            </div>
+            <div class="detail-item">
+                <span>Location:</span>
+                <span>{{ booking.turf.location }}</span>
+            </div>
+            <div class="detail-item">
+                <span>Date:</span>
+                <span>{{ booking.date|date:"l, F d, Y" }}</span>
+            </div>
+            <div class="detail-item">
+                <span>Time:</span>
+                <span>{{ booking.start_time|time:"h:i A" }} - {{ booking.end_time|time:"h:i A" }}</span>
+            </div>
+            <div class="detail-item">
+                <span>Status:</span>
+                <span style="color: var(--primary);">{{ booking.status }}</span>
+            </div>
+        </div>
+
+        <div class="total-section">
+            <h3>Total Paid: ₹{{ booking.total_price }}</h3>
+        </div>
+
+        <div class="actions">
+            <a href="javascript:window.print()" class="btn btn-secondary"><i class="fas fa-print"></i> Print</a>
+            <a href="{% url 'my_bookings' %}" class="btn btn-primary"><i class="fas fa-list"></i> My Bookings</a>
+        </div>
+    </div>
+</body>
+</html>

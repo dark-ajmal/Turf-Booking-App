@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -230,6 +231,8 @@
             box-shadow: var(--card-shadow);
             overflow: hidden;
             transition: transform 0.3s;
+            text-decoration: none;
+            color: inherit;
         }
 
         .turf-card:hover {
@@ -265,6 +268,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
+        /* Turf Card Content */
         .turf-content {
             padding: 1.5rem;
         }
@@ -288,7 +292,7 @@
             margin-bottom: 0.8rem;
             font-size: 0.9rem;
         }
-
+        
         .turf-rating {
             display: flex;
             align-items: center;
@@ -302,7 +306,7 @@
             font-weight: 500;
             font-size: 0.9rem;
         }
-
+        
         .turf-meta {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -340,7 +344,7 @@
             justify-content: space-between;
             gap: 1rem;
         }
-
+        
         .btn-sm {
             padding: 0.6rem 1rem;
             font-size: 0.9rem;
@@ -365,6 +369,31 @@
         .badge-tennis {
             background: rgba(255, 160, 0, 0.1);
             color: #FFA000;
+        }
+        
+        .no-image-placeholder {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            color: var(--gray);
+            font-size: 2rem;
+        }
+        .no-image-placeholder i {
+            margin-bottom: 0.5rem;
+        }
+        .no-turfs-message {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+        }
+        .no-turfs-message i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
         }
 
         /* Pagination */
@@ -394,7 +423,7 @@
             background: var(--primary);
             color: white;
         }
-
+        
         /* Responsive */
         @media (max-width: 992px) {
             .turf-grid {
@@ -445,11 +474,6 @@
                     <i class="fas fa-futbol"></i>
                     <h1><span style="color:#009624 ; font-family: 'Poppins', sans-serif; font-weight: 700;">Only</span>Turf</h1>
                 </div>
-                <div>
-                    <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 500;">
-                        <i class="fas fa-user"></i> Player Dashboard
-                    </a>
-                </div>
             </nav>
         </div>
     </header>
@@ -475,6 +499,8 @@
                         <option value="cricket">Cricket</option>
                         <option value="badminton">Badminton</option>
                         <option value="tennis">Tennis</option>
+                        <option value="basketball">Basketball</option>
+                        <option value="volleyball">Volleyball</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -540,9 +566,65 @@
 
         <!-- Turf Grid -->
         <div class="turf-grid" id="turfResults">
-            <!-- Turf cards will be dynamically inserted here -->
+            <!-- Dynamic turf cards will be rendered here -->
+            {% for turf in turfs %}
+            <a href="{% url 'booking_page' turf_id=turf.id %}" class="turf-card">
+                <div class="turf-image">
+                    {% if turf.image %}
+                    <img src="{{ turf.image.url }}" alt="{{ turf.name }}">
+                    {% else %}
+                    <div class="no-image-placeholder">
+                        <i class="fas fa-image"></i>
+                        <span>No Image</span>
+                    </div>
+                    {% endif %}
+                    <span class="turf-badge badge-{{ turf.sports_type }}">
+                        {{ turf.sports_type|capfirst }}
+                    </span>
+                </div>
+                <div class="turf-content">
+                    <div class="turf-header">
+                        <div class="turf-title">
+                            <h3>{{ turf.name }}</h3>
+                            <div class="turf-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ turf.location }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="turf-rating">
+                        <!-- Star rating hardcoded for now, would be dynamic from backend -->
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span>(128 reviews)</span>
+                    </div>
+                    <div class="turf-meta">
+                        <div class="turf-meta-item">
+                            <i class="fas fa-users"></i>
+                            <span>{{ turf.no_of_players|default:'N/A' }} players</span>
+                        </div>
+                        <div class="turf-meta-item">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span>₹{{ turf.price_per_hour|default:'0.00' }}/hour</span>
+                        </div>
+                        <div class="turf-meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>{{ turf.open_time|time:"h:i A"|default:'N/A' }} - {{ turf.close_time|time:"h:i A"|default:'N/A' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% empty %}
+                <div class="no-turfs-message">
+                    <i class="fas fa-info-circle"></i>
+                    <p>No turfs found matching your criteria. Try adjusting your filters.</p>
+                </div>
+            {% endfor %}
         </div>
-
+        
         <!-- Pagination -->
         <div class="pagination">
             <div class="page-item">
@@ -558,116 +640,62 @@
     </div>
 
     <script>
-        // Sample turf data (in a real app, this would come from your backend)
-        const turfData = [
-            {
-                id: 1,
-                name: "Elite Football Arena",
-                location: "Sector 15, Noida",
-                sport: "football",
-                price: 800,
-                players: "5-10",
-                rating: 4.5,
-                reviews: 128,
-                amenities: ["floodlights", "changingRooms", "parking"],
-                image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                description: "Professional 5-a-side football turf with floodlights"
-            },
-            {
-                id: 2,
-                name: "Shuttle Pro Arena",
-                location: "Whitefield, Bangalore",
-                sport: "badminton",
-                price: 600,
-                players: "2-4",
-                rating: 4.0,
-                reviews: 86,
-                amenities: ["floodlights", "parking"],
-                image: "https://images.unsplash.com/photo-1547036965-61e7c56d14d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                description: "Air-conditioned badminton courts with professional flooring"
-            },
-            {
-                id: 3,
-                name: "Premier Cricket Ground",
-                location: "MG Road, Bangalore",
-                sport: "cricket",
-                price: 1200,
-                players: "11-22",
-                rating: 5.0,
-                reviews: 94,
-                amenities: ["floodlights", "changingRooms", "parking", "equipment"],
-                image: "https://images.unsplash.com/photo-1600679472829-3044539ce8ed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                description: "Full-size cricket ground with practice nets"
-            },
-            {
-                id: 4,
-                name: "Grand Tennis Court",
-                location: "Hitech City, Hyderabad",
-                sport: "tennis",
-                price: 900,
-                players: "2-4",
-                rating: 4.0,
-                reviews: 72,
-                amenities: ["floodlights", "parking"],
-                image: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
-                description: "Professional tennis courts with synthetic grass"
-            }
-        ];
-
         // DOM elements
         const turfResults = document.getElementById('turfResults');
         const searchButton = document.getElementById('searchButton');
         const resetFilters = document.getElementById('resetFilters');
         const increasePlayers = document.getElementById('increasePlayers');
         const decreasePlayers = document.getElementById('decreasePlayers');
-        const playerCount = document.getElementById('playerCount');
+        const playerCountInput = document.getElementById('playerCount');
 
-        // Initialize with all turfs
-        renderTurfs(turfData);
-
+        // Initial turf cards rendered by Django
+        const initialTurfCards = Array.from(turfResults.querySelectorAll('.turf-card'));
+        
         // Player count controls
         increasePlayers.addEventListener('click', () => {
-            playerCount.value = Math.min(30, parseInt(playerCount.value) + 1);
+            playerCountInput.value = parseInt(playerCountInput.value) + 1;
         });
 
         decreasePlayers.addEventListener('click', () => {
-            playerCount.value = Math.max(1, parseInt(playerCount.value) - 1);
+            playerCountInput.value = Math.max(1, parseInt(playerCountInput.value) - 1);
         });
 
         // Search functionality
         searchButton.addEventListener('click', () => {
             const sportType = document.getElementById('sportType').value;
             const location = document.getElementById('location').value.toLowerCase();
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
-            const players = parseInt(playerCount.value);
-            const amenities = Array.from(document.querySelectorAll('input[name="amenities"]:checked')).map(el => el.id);
-
+            const players = parseInt(playerCountInput.value);
+            // In a real app, date/time/amenities filters would require server-side logic
+            
             // Show loading state
             searchButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
             
-            // Simulate API call delay
+            // Simulate API call delay and filter rendered cards
             setTimeout(() => {
-                const filteredTurfs = turfData.filter(turf => {
-                    // Filter by sport type
-                    if (sportType && turf.sport !== sportType) return false;
-                    
-                    // Filter by location
-                    if (location && !turf.location.toLowerCase().includes(location)) return false;
-                    
-                    // Filter by player count
-                    const [minPlayers, maxPlayers] = turf.players.split('-').map(Number);
-                    if (players < minPlayers || players > maxPlayers) return false;
-                    
-                    // Filter by amenities
-                    if (amenities.length > 0 && !amenities.every(amenity => turf.amenities.includes(amenity))) {
-                        return false;
+                let foundResults = false;
+                initialTurfCards.forEach(card => {
+                    const cardSport = card.querySelector('.turf-badge').textContent.toLowerCase();
+                    const cardLocation = card.querySelector('.turf-location span').textContent.toLowerCase();
+                    const cardPlayersText = card.querySelector('.turf-meta-item span').textContent;
+                    const cardMinPlayers = parseInt(cardPlayersText.split('-')[0].trim());
+
+                    const matchesSport = !sportType || cardSport.includes(sportType);
+                    const matchesLocation = !location || cardLocation.includes(location);
+                    const matchesPlayers = players <= cardMinPlayers; // Simplified logic
+
+                    if (matchesSport && matchesLocation && matchesPlayers) {
+                        card.style.display = 'block';
+                        foundResults = true;
+                    } else {
+                        card.style.display = 'none';
                     }
-                    
-                    return true;
                 });
                 
-                renderTurfs(filteredTurfs);
+                // Show a message if no turfs are found
+                if (!foundResults) {
+                    turfResults.innerHTML = '<div class="no-turfs-message"><i class="fas fa-info-circle"></i><p>No turfs found matching your criteria. Try adjusting your filters.</p></div>';
+                }
+                
                 searchButton.innerHTML = '<i class="fas fa-search"></i> Find Turfs';
             }, 800);
         });
@@ -678,101 +706,13 @@
             document.getElementById('location').value = '';
             document.getElementById('date').value = '';
             document.getElementById('time').value = '';
-            playerCount.value = 5;
+            playerCountInput.value = 5;
             document.querySelectorAll('input[name="amenities"]').forEach(checkbox => {
                 checkbox.checked = false;
             });
-            renderTurfs(turfData);
+            initialTurfCards.forEach(card => card.style.display = 'block'); // Show all turfs
         });
 
-        // Render turfs function
-        function renderTurfs(turfs) {
-            turfResults.innerHTML = '';
-            
-            if (turfs.length === 0) {
-                turfResults.innerHTML = '<div class="no-results" style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--gray);">No turfs found matching your criteria</div>';
-                return;
-            }
-            
-            turfs.forEach(turf => {
-                const turfCard = document.createElement('div');
-                turfCard.className = 'turf-card';
-                turfCard.innerHTML = `
-                    <div class="turf-image">
-                        <img src="${turf.image}" alt="${turf.name}">
-                        <span class="turf-badge ${'badge-' + turf.sport}">${turf.sport.charAt(0).toUpperCase() + turf.sport.slice(1)}</span>
-                    </div>
-                    <div class="turf-content">
-                        <div class="turf-header">
-                            <div class="turf-title">
-                                <h3>${turf.name}</h3>
-                                <div class="turf-location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span>${turf.location}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="turf-rating">
-                            ${renderStars(turf.rating)}
-                            <span>(${turf.reviews} reviews)</span>
-                        </div>
-                        <div class="turf-meta">
-                            <div class="turf-meta-item">
-                                <i class="fas fa-users"></i>
-                                <span>${turf.players} players</span>
-                            </div>
-                            <div class="turf-meta-item">
-                                <i class="fas fa-rupee-sign"></i>
-                                <span>₹${turf.price}/hour</span>
-                            </div>
-                            ${turf.amenities.includes('floodlights') ? 
-                                '<div class="turf-meta-item"><i class="fas fa-lightbulb"></i><span>Floodlights</span></div>' : ''}
-                            ${turf.amenities.includes('parking') ? 
-                                '<div class="turf-meta-item"><i class="fas fa-parking"></i><span>Parking</span></div>' : ''}
-                        </div>
-                        <div class="turf-actions">
-                            <button class="btn btn-outline btn-sm">
-                                <i class="far fa-heart"></i> Save
-                            </button>
-                            <button class="btn btn-primary btn-sm book-now" data-id="${turf.id}">
-                                <i class="fas fa-calendar-check"></i> Book Now
-                            </button>
-                        </div>
-                    </div>
-                `;
-                turfResults.appendChild(turfCard);
-            });
-            
-            // Add event listeners to book now buttons
-            document.querySelectorAll('.book-now').forEach(button => {
-                button.addEventListener('click', function() {
-                    const turfId = this.getAttribute('data-id');
-                    const turf = turfData.find(t => t.id == turfId);
-                    alert(`Booking ${turf.name} for ${playerCount.value} players`);
-                    // In a real app: window.location.href = `booking.html?id=${turfId}`;
-                });
-            });
-        }
-        
-        // Helper function to render star ratings
-        function renderStars(rating) {
-            let stars = '';
-            const fullStars = Math.floor(rating);
-            const hasHalfStar = rating % 1 >= 0.5;
-            
-            for (let i = 1; i <= 5; i++) {
-                if (i <= fullStars) {
-                    stars += '<i class="fas fa-star"></i>';
-                } else if (i === fullStars + 1 && hasHalfStar) {
-                    stars += '<i class="fas fa-star-half-alt"></i>';
-                } else {
-                    stars += '<i class="far fa-star"></i>';
-                }
-            }
-            
-            return stars;
-        }
-        
         // Set default date to today
         document.getElementById('date').valueAsDate = new Date();
     </script>

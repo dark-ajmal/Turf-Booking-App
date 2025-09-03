@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Slots for {{ turf.name }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C853; --primary-dark: #009624; --light: #f8f9fa;
+            --dark: #212529; --gray: #6c757d; --card-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            --danger: #dc3545; --info: #17a2b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #f5f7fa; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 250px; background: white; box-shadow: 2px 0 10px rgba(0,0,0,0.05); padding: 1.5rem 0; position: fixed; height: 100vh; z-index: 100; }
+        .logo { display: flex; align-items: center; padding: 0 1.5rem; margin-bottom: 2rem; }
+        .logo i { font-size: 1.8rem; color: var(--primary); margin-right: 10px; }
+        .logo h1 { font-size: 1.3rem; font-weight: 600; }
+        .nav-menu { list-style: none; } .nav-item { margin-bottom: 0.5rem; }
+        .nav-link { display: flex; align-items: center; padding: 0.8rem 1.5rem; color: var(--gray); text-decoration: none; transition: all 0.3s; }
+        .nav-link i { margin-right: 10px; width: 20px; text-align: center; }
+        .nav-link:hover, .nav-link.active { background: rgba(0,200,83,0.1); color: var(--primary); border-left: 3px solid var(--primary); }
+        .main-content { flex: 1; margin-left: 250px; padding: 2rem; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .header-title h2 { font-size: 1.8rem; }
+        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none; font-weight: 500; border: none; cursor: pointer; transition: all 0.3s; }
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: rgba(0,200,83,0.1); }
+        .btn-danger { background-color: var(--danger); color: white; }
+        .card { background: white; border-radius: 12px; box-shadow: var(--card-shadow); overflow: hidden; }
+        .card-header { padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+        .card-title { font-size: 1.2rem; font-weight: 600; }
+        .date-filter { display: flex; gap: 1rem; align-items: center; }
+        .date-filter input { padding: 0.5rem; border: 1px solid #ddd; border-radius: 6px; }
+        .card-body { padding: 1.5rem; }
+        .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+        .slot { padding: 1rem; border-radius: 8px; text-align: center; border: 1px solid #eee; }
+        .slot-time { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .slot-status { font-size: 0.9rem; margin-bottom: 1rem; }
+        .slot.available { background-color: #f8f9fa; }
+        .slot.confirmed { background-color: rgba(0, 200, 83, 0.1); border-color: var(--primary); }
+        .slot.blocked { background-color: rgba(220, 53, 69, 0.1); border-color: var(--danger); }
+        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
+        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 12px; }
+        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; }
+        .close-btn:hover, .close-btn:focus { color: black; text-decoration: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+             <div class="logo">
+                <i class="fas fa-futbol"></i>
+                <h1><span style="color:#009624;">Only</span>Turf</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="{% url 'owner_view' %}" class="nav-link"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link active"><i class="fas fa-cogs"></i><span>Manage Slots</span></a></li>
+                <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <div class="header-title"><h2>Manage Slots for {{ turf.name }}</h2></div>
+                <a href="{% url 'owner_view' %}" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Time Slots</h3>
+                    <div class="date-filter">
+                        <label for="date-picker">Select Date:</label>
+                        <input type="date" id="date-picker" value="{{ selected_date }}">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="slots-grid">
+                        {% for slot in slots %}
+                            <div class="slot {{ slot.status }}">
+                                <p class="slot-time">{{ slot.start_time|time:"h:i A" }}</p>
+                                {% if slot.status == 'available' %}
+                                    <p class="slot-status" style="color: var(--primary);">Available</p>
+                                    <button class="btn btn-sm btn-primary block-btn" data-start="{{ slot.start_time|time:'H:i:s' }}" data-end="{{ slot.end_time|time:'H:i:s' }}">Block</button>
+                                {% elif slot.status == 'blocked' %}
+                                    <p class="slot-status" style="color: var(--danger);">Blocked</p>
+                                    <p style="font-size: 0.8rem; margin-bottom: 1rem;">({{ slot.booking_obj.block_reason }})</p>
+                                    <form method="POST" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="unblock">
+                                        <input type="hidden" name="booking_id" value="{{ slot.booking_obj.id }}">
+                                        <input type="hidden" name="slot_date" value="{{ selected_date }}">
+                                        <button type="submit" class="btn btn-sm btn-outline">Unblock</button>
+                                    </form>
+                                {% elif slot.status == 'confirmed' %}
+                                    <p class="slot-status" style="color: var(--info);">Booked</p>
+                                    <p style="font-size: 0.8rem; margin-bottom: 1rem;">by {{ slot.booking_obj.player.name }}</p>
+                                    <a href="{% url 'owner_booking_detail' booking_id=slot.booking_obj.id %}" class="btn btn-sm btn-outline">Details</a>
+                                {% endif %}
+                            </div>
+                        {% empty %}
+                            <p>No time slots to display for this turf's schedule.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Block Slot Modal -->
+    <div id="blockSlotModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3>Block Time Slot</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="block">
+                <input type="hidden" id="modal-start-time" name="start_time">
+                <input type="hidden" id="modal-end-time" name="end_time">
+                <input type="hidden" name="slot_date" value="{{ selected_date }}">
+                <div style="margin: 1rem 0;">
+                    <label for="reason">Reason for blocking:</label>
+                    <input type="text" id="reason" name="reason" placeholder="e.g., Maintenance" required style="width: 100%; padding: 0.5rem; margin-top: 0.5rem;">
+                </div>
+                <button type="submit" class="btn btn-danger">Confirm Block</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Date picker logic
+            const datePicker = document.getElementById('date-picker');
+            datePicker.addEventListener('change', function() {
+                const selectedDate = this.value;
+                const currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('date', selectedDate);
+                window.location.href = currentUrl.toString();
+            });
+
+            // Modal logic
+            const modal = document.getElementById('blockSlotModal');
+            const closeBtn = document.querySelector('.close-btn');
+            const blockBtns = document.querySelectorAll('.block-btn');
+
+            blockBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.getElementById('modal-start-time').value = this.dataset.start;
+                    document.getElementById('modal-end-time').value = this.dataset.end;
+                    modal.style.display = 'block';
+                });
+            });
+
+            closeBtn.onclick = function() { modal.style.display = 'none'; }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

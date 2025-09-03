@@ -1,0 +1,220 @@
+<!-- your_app/templates/my_bookings.html -->
+<!-- --------------------------------------- -->
+<!-- This template now includes a 'View Receipt' button for every booking. -->
+
+{% load static %}
+{% load booking_tags %}  
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - OnlyTurf</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C853;
+            --primary-dark: #009624;
+            --danger: #e53e3e;
+            --danger-dark: #c53030;
+            --info: #007bff;
+            --info-dark: #0056b3;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            --card-hover-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            border-left: 5px solid var(--primary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .booking-card-content {
+            padding: 1.5rem 2rem;
+        }
+
+        .booking-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .booking-card .date-info {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-confirmed { background-color: rgba(0, 200, 83, 0.1); color: var(--primary-dark); }
+        .status-cancelled { background-color: rgba(229, 62, 62, 0.1); color: var(--danger-dark); }
+        .status-completed { background-color: #e0e0e0; color: var(--gray); }
+
+        .actions {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-receipt {
+            background-color: var(--info);
+            color: white;
+        }
+        .btn-receipt:hover {
+            background-color: var(--info-dark);
+        }
+        .btn-cancel {
+            background-color: var(--danger);
+            color: white;
+        }
+        .btn-cancel:hover {
+            background-color: var(--danger-dark);
+        }
+        
+        .no-bookings {
+            background: white;
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 2px dashed #e0e0e0;
+        }
+        
+        .no-bookings i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+        
+        .no-bookings p {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>My Bookings</h1>
+            <p>Here is a list of all your past and upcoming reservations.</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% for booking in bookings %}
+            <div class="booking-card">
+                <div class="booking-card-content">
+                    <h3>{{ booking.turf.name }}</h3>
+                    <p class="date-info">{{ booking.booking_date|date:"l, F d, Y" }} at {{ booking.start_time|time:"h:i A" }}</p>
+                    
+                    <div class="status status-{{ booking.status|lower }}">{{ booking.status }}</div>
+
+                    <div class="actions">
+                        <!-- Button to view the booking receipt -->
+                        <a href="{% url 'booking_receipt' booking.id %}" class="btn btn-receipt">
+                           <i class="fas fa-receipt"></i> View Receipt
+                        </a>
+                        
+                        <!-- The existing conditional cancel button -->
+                        {% if booking|is_cancellable %}
+                            <a href="{% url 'cancel_booking' booking.id %}" 
+                               class="btn btn-cancel" 
+                               onclick="return confirm('Are you sure you want to cancel this booking? This action cannot be undone.');">
+                               <i class="fas fa-times-circle"></i> Cancel
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="no-bookings">
+                <i class="fas fa-calendar-times"></i>
+                <p>You have no bookings yet.</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

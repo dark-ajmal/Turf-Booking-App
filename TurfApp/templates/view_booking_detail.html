@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking #{{ booking.id }} Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00C853;
+            --primary-dark: #009624;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #f5f7fa; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 250px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem 0;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        .logo { display: flex; align-items: center; padding: 0 1.5rem; margin-bottom: 2rem; }
+        .logo i { font-size: 1.8rem; color: var(--primary); margin-right: 10px; }
+        .logo h1 { font-size: 1.3rem; font-weight: 600; }
+        .nav-menu { list-style: none; }
+        .nav-item { margin-bottom: 0.5rem; }
+        .nav-link { display: flex; align-items: center; padding: 0.8rem 1.5rem; color: var(--gray); text-decoration: none; transition: all 0.3s; }
+        .nav-link i { margin-right: 10px; width: 20px; text-align: center; }
+        .nav-link:hover, .nav-link.active { background: rgba(0, 200, 83, 0.1); color: var(--primary); border-left: 3px solid var(--primary); }
+        .main-content { flex: 1; margin-left: 250px; padding: 2rem; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .header-title h2 { font-size: 1.8rem; }
+        .btn { padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none; font-weight: 500; border: none; cursor: pointer; transition: all 0.3s; }
+        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: rgba(0, 200, 83, 0.1); }
+        .card { background: white; border-radius: 12px; box-shadow: var(--card-shadow); margin-bottom: 1.5rem; overflow: hidden; }
+        .card-header { padding: 1.5rem; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .card-title { font-size: 1.2rem; font-weight: 600; }
+        .card-body { padding: 1.5rem; }
+        .badge { padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .badge-confirmed { background: rgba(0, 200, 83, 0.15); color: #009624; }
+        .badge-cancelled { background: rgba(220, 53, 69, 0.15); color: #dc3545; }
+        .badge-completed { background: rgba(23, 162, 184, 0.15); color: #17a2b8; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .info-item { display: flex; align-items: center; gap: 1rem; }
+        .info-item .icon { font-size: 1.5rem; color: var(--primary); }
+        .info-item .details h4 { font-size: 0.9rem; color: var(--gray); font-weight: 400; margin-bottom: 0.25rem; }
+        .info-item .details p { font-size: 1rem; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-futbol"></i>
+                <h1><span style="color:#009624;">Only</span>Turf</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="{% url 'owner_view' %}" class="nav-link"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                <li class="nav-item"><a href="{% url 'view_bookings' turf_id=turf.id %}" class="nav-link active"><i class="fas fa-calendar-alt"></i><span>Bookings</span></a></li>
+                <li class="nav-item"><a href="{% url 'logout_view' %}" class="nav-link"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <div class="header-title">
+                    <h2>Booking Details</h2>
+                </div>
+                <a href="{% url 'view_bookings' turf_id=turf.id %}" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to All Bookings</a>
+            </div>
+
+            <!-- Booking Summary Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Booking #{{ booking.id }}</h3>
+                    <!-- Dynamic Status Badge -->
+                    <span class="badge badge-{{ booking.status|lower }}">{{ booking.status }}</span>
+                </div>
+                <div class="card-body info-grid">
+                    <div class="info-item">
+                        <div class="icon"><i class="fas fa-map-marked-alt"></i></div>
+                        <div class="details"><h4>Turf</h4><p>{{ booking.turf.name }}</p></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon"><i class="fas fa-calendar-day"></i></div>
+                        <div class="details"><h4>Date</h4><p>{{ booking.date|date:"D, d M Y" }}</p></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon"><i class="fas fa-clock"></i></div>
+                        <div class="details"><h4>Time Slot</h4><p>{{ booking.start_time|time:"h:i A" }} - {{ booking.end_time|time:"h:i A" }}</p></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon"><i class="fas fa-calendar-check"></i></div>
+                        <div class="details"><h4>Booked On</h4><p>{{ booking.booked_at|date:"d M Y, h:i A" }}</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Details Card -->
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">Customer Details</h3></div>
+                <div class="card-body info-grid">
+                    <div class="info-item">
+                        <div class="icon"><i class="fas fa-user"></i></div>
+                        <div class="details"><h4>Name</h4><p>{{ booking.player.name }}</p></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon"><i class="fas fa-phone"></i></div>
+                        <div class="details"><h4>Phone</h4><p>{{ booking.player.phone|default:'Not provided' }}</p></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon"><i class="fas fa-envelope"></i></div>
+                        <div class="details"><h4>Email</h4><p>{{ booking.player.email }}</p></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Financial Details Card -->
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">Financials & Logistics</h3></div>
+                <div class="card-body info-grid">
+                    <div class="info-item">
+                        <div class="icon"><i class="fas fa-users"></i></div>
+                        <div class="details"><h4>Number of Players</h4><p>{{ booking.no_of_players }}</p></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="icon"><i class="fas fa-rupee-sign"></i></div>
+                        <div class="details"><h4>Total Revenue</h4><p>₹{{ booking.total_price }}</p></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+

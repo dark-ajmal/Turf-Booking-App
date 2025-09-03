@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +34,8 @@
         /* Split Screen Design */
         .graphic-side {
             flex: 1;
-            background-image: url('/TurfProject/TurfApp/templates/media/abstract-green-grass-football-field-of-artificial-grass-background-texture-soccer-playing-field-of-football-betting-and-competition-white-lines-that-de.jpeg');
+            /* Corrected path to use Django's static files system */
+            background-image: url("{% static 'images/abstract-green-grass-football-field-of-artificial-grass-background-texture-soccer-playing-field-of-football-betting-and-competition-white-lines-that-de.jpeg' %}");
             background-size: cover;
             display: flex;
             flex-direction: column;
@@ -343,7 +345,8 @@
 <body>
     <!-- Graphic Side -->
     <div class="graphic-side">
-        <img src="transparent-image-and-draw-a-soccer-ball.png" style="scale: 0.4;" alt="Sports Illustration" class="sports-illustration">
+        <!-- Corrected path to use Django's static files system -->
+        <img src="{% static 'images/transparent-image-and-draw-a-soccer-ball.png' %}" style="scale: 0.4;" alt="Sports Illustration" class="sports-illustration">
         <div class="graphic-content">
             <h2>Turf Booking Made Easy</h2>
             <p>Find and book premium sports turfs in your city with just a few clicks</p>
@@ -358,13 +361,24 @@
             </div>
             <div class="logo-text"><span style="color:#009624 ; font-family: 'Bungee', cursive ;">Only</span>Turf</div>
         </div>
+        
+        <!-- Display Django messages -->
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
         <div class="welcome-text">
             <h1>Welcome Back!</h1>
             <p>Please enter your details to sign in</p>
         </div>
 
-        <form id="login-form" method="post">
+        <form id="login-form" method="post" action="{% url 'login_view' %}">
             {% csrf_token %}
             <div class="form-group">
                 <label for="email">Email</label>
@@ -409,19 +423,25 @@
             </div>
 
             <div class="signup-link">
-                Don't have an account? <a href="signup.html">Sign up</a>
+                Don't have an account? <a href="{% url 'signup_view' %}">Sign up</a>
             </div>
         </form>
     </div>
 
     <script>
         document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             const btn = document.querySelector('.btn-login');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
             btn.disabled = true;
-        }); 
+            
+            // Re-enable the button if the form submission is prevented (e.g., due to validation)
+            this.addEventListener('submit', function() {
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+                    btn.disabled = false;
+                }, 2000); // Wait 2 seconds before resetting
+            });
+        });
     </script>
 </body>
 </html>

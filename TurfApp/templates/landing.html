@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,6 +49,7 @@
             background-position: center;
             opacity: 0;
             transition: opacity 1.5s ease-in-out;
+            position: absolute;
         }
 
         .slide.active {
@@ -269,7 +271,6 @@
         }
 
         @keyframes float {
-
             0%,
             100% {
                 transform: translateY(0);
@@ -283,7 +284,6 @@
         .hero-image img {
             width: 100%;
             border-radius: 10px;
-            box-shadow: var(--card-shadow);
         }
 
         /* Features Section */
@@ -532,6 +532,11 @@
             margin: 0 auto;
         }
 
+        .footer-about {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
         .footer-logo {
             display: flex;
             align-items: center;
@@ -659,12 +664,10 @@
 <body>
     <!-- Background Slideshow -->
     <div class="slideshow-container">
-        <!-- Replace these with your image URLs -->
-        <div class="slide active" style="background-image: url('Badminton_racket_sports_4K_HD_closeup_2560x1440.jpg')">
-        </div>
-        <div class="slide" style="background-image: url('fuqjvmi8gz661.webp')"></div>
-        <div class="slide" style="background-image: url('OIP.webp')"></div>
-        <div class="slide" style="background-image: url('wp1809784.webp')"></div>
+        <div class="slide active" style="background: url('{% static 'images/slideshow1.jpg' %}')"></div>
+        <div class="slide" style="background: url('{% static 'images/fuqjvmi8gz661.webp' %}')"></div>
+        <div class="slide" style="background: url('{% static 'images/OIP.webp' %}')"></div>
+        <div class="slide" style="background: url('{% static 'images/wp1809784.webp' %}')"></div>
         <div class="slideshow-overlay"></div>
     </div>
 
@@ -683,10 +686,9 @@
                 <a href="#">Pricing</a>
             </div>
             <div class="auth-buttons">
-                <a href="{% url 'login_view' %}" class="btn btn-login">Login</a>
-                <a href="{% url 'signup_view' %}" class="btn btn-signup">Sign Up</a>
+                <a href="{% url 'login_view' %}" class="btn btn-login" style="text-decoration: none;">Login</a>
+                <a href="{% url 'signup_view' %}" class="btn btn-signup" style="text-decoration: none;">Sign Up</a>
             </div>
-
         </nav>
     </header>
 
@@ -697,10 +699,10 @@
             <p>Only Turf connects you with the best football, cricket, and badminton facilities in your city. Instant
                 bookings, real-time availability, and exclusive discounts.</p>
             <div class="hero-buttons">
-                <button class="btn-primary">
+                <a href="{% url 'home_view' %}" class="btn-primary">
                     <i class="fas fa-calendar-alt"></i> Book Now
-                </button>
-                <button class="btn-secondary">Learn More</button>
+                </a>
+                <a href="#features" class="btn-secondary">Learn More</a>
             </div>
             <div class="hero-stats">
                 <div class="stat">
@@ -718,13 +720,13 @@
             </div>
         </div>
         <div class="hero-image">
-            <img src="eea51d19-9ba2-466a-b2fa-92d33a491edd-removebg-preview.png" style="scale: 0.8;"
+            <img src="{% static 'images/eea51d19-9ba2-466a-b2fa-92d33a491edd-removebg-preview.png' %}" style="scale: 0.8;"
                 alt="Turf Booking App">
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features">
+    <section class="features" id="features">
         <h2 class="section-title">Why Choose Only Turf?</h2>
         <p class="section-subtitle">We make turf booking effortless and enjoyable with these powerful features</p>
 
@@ -830,7 +832,7 @@
     <section class="cta">
         <h2>Ready to Transform Your Sports Experience?</h2>
         <p>Join thousands of players who are already enjoying hassle-free turf bookings</p>
-        <button class="cta-button">Get Started for Free</button>
+        <a href="{% url 'signup_view' %}" class="cta-button">Get Started for Free</a>
     </section>
 
     <!-- Footer -->
@@ -877,7 +879,6 @@
                     <li><a href="#">Terms of Service</a></li>
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Cookie Policy</a></li>
-                    <li><a href="#">Refund Policy</a></li>
                 </ul>
             </div>
         </div>
